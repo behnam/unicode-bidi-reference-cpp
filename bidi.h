@@ -33,29 +33,29 @@
 
 // provides constants for UI elements declared in BIDI.RC
 #ifndef IDC_INPUT
-#define IDC_INPUT                       2189
-#define IDC_LEVEL                       2190
-#define IDC_EX_LEVEL                    2190
-#define IDC_DISPL                       2191
-#define IDC_TYPES                       2192
-#define IDC_N_TYPES                     2193
-#define IDC_IM_LEVEL                    2194
-#define IDC_W_TYPES                     2195
-#define IDC_RLE                         2196
-#define IDC_LRE                         2197
-#define IDC_RLO                         2198
-#define IDC_LRO                         2199
-#define IDC_MIRROR                      2200
-#define IDC_RLM                         2201
-#define IDC_NBSP                        2202
-#define IDC_X_TYPES                     2202
-#define IDC_LRM                         2204
-#define IDC_CLEAN                       2205
-#define IDC_LS                          2206
+#define IDC_INPUT                       4189
+#define IDC_LEVEL                       4190
+#define IDC_EX_LEVEL                    4190
+#define IDC_DISPL                       4191
+#define IDC_TYPES                       4192
+#define IDC_N_TYPES                     4193
+#define IDC_IM_LEVEL                    4194
+#define IDC_W_TYPES                     4195
+#define IDC_RLE                         4196
+#define IDC_LRE                         4197
+#define IDC_RLO                         4198
+#define IDC_LRO                         4199
+#define IDC_MIRROR                      4200
+#define IDC_RLM                         4201
+#define IDC_NBSP                        4202
+#define IDC_X_TYPES                     4202
+#define IDC_LRM                         4204
+#define IDC_CLEAN                       4205
+#define IDC_LS                          4206
 
-#define IDC_LEGEND                      2216
-#define IDC_BASELEVEL                   2217
-#define IDC_IMPLICIT					2203
+#define IDC_LEGEND                      4216
+#define IDC_BASELEVEL                   4217
+#define IDC_IMPLICIT					4203
 #endif
 
 // duplicate some windows.h defines for commandline

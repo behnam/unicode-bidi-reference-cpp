@@ -1,5 +1,5 @@
 /* This code is slightly modified from:
-	Bidi.cpp - version 25g
+	Bidi.cpp - version 25h
 	Reference implementation for Unicode Bidirectional Algorithm
 
    Using no language extensions, and providing commandline only with
@@ -118,22 +118,30 @@
 
      - Last Revised 11-07-01 (25g)
 
-	 Disclaimer and legal rights
-	 ---------------------------
+     - fixed classification for plus/minus in pseudo alphabet
+       to track changes made in Unicode 4.0.1
 
-     This file contains bugs. All representations to the contrary are 
-     void.
+	 - Last Revised 12-03-04 (25h)
 
-     Source code in this file and the accompanying headers and included 
-	 files may be distributed free of charge by anyone, as long as full 
-	 credit is given and any and all liabilities are assumed by the 
-	 recipient.
-
+     Credits:
+	 -------
 	 Written by: Asmus Freytag
 	 Command line interface by: Rick McGowan
 	 Verification and Test Harness: Doug Felt
 
-     Copyright (C) 1999-2001, ASMUS, Inc. All Rights Reserved
+	 Disclaimer and legal rights:
+	 ---------------------------
+     Copyright (C) 1999-2005, ASMUS, Inc. All Rights Reserved. 
+	 Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+	  
+	 THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+	 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+	 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. 
+	 IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE 
+	 BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, 
+	 OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
+	 WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, 
+	 ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE SOFTWARE.
 ------------------------------------------------------------------------*/
 
 
@@ -214,7 +222,7 @@ int TypesFromChar[]  =
 //0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
  BN, BN, BN, BN,  L,  R, BN, BN, BN,  S,  B,  S, WS,  B, BN, BN, /*00-0f*/
 LRO,LRE,PDF,RLO,RLE, WS,  L,  R, BN, BN, BN, BN,  B,  B,  B,  S, /*10-1f*/
- WS, ON, ON, ET, ET, ET, ON, ON, ON, ON, ON, ET, CS, ET, CS, ES, /*20-2f*/
+ WS, ON, ON, ET, ET, ET, ON, ON, ON, ON, ON, ES, CS, ES, CS, ES, /*20-2f*/
  EN, EN, EN, EN, EN, EN, AN, AN, AN, AN, CS, ON, ON, ON, ON, ON, /*30-3f*/
  ON, AL, AL, AL, AL, AL, AL,  R,  R,  R,  R,  R,  R,  R,  R,  R, /*40-4f*/
   R,  R,  R,  R,  R,  R,  R,  R,  R,  R,  R,LRE, ON,RLE,PDF,  S, /*50-5f*/
@@ -236,8 +244,8 @@ RLE: 0x14,]
 RLO: 0x13,}
 PDF: 0x12,^
  EN: 0-5
- ES: /
- ET: #,$,%,+,[hyphen]
+ ES: /,+,[hyphen]
+ ET: #,$,%
  AN: 6-9
  CS: [comma],.,:
 NSM: `

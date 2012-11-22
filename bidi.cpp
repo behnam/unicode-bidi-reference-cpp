@@ -1,4 +1,4 @@
-// Bidi.cpp - version 25g
+// Bidi.cpp - version 25h
 
 // Reference implementation for Unicode Bidirectional Algorithm
 
@@ -41,148 +41,158 @@
 /*------------------------------------------------------------------------
      File: Bidi.Cpp
      
-	 Description
-	 -----------
+     Description
+     -----------
 
-	 Sample Implementation of the Unicode Bidirectional Algorithm as it 
+     Sample Implementation of the Unicode Bidirectional Algorithm as it 
      was revised by Revision 5 of the Uniode Technical Report # 9 
-	 (1999-8-17)
+     (1999-8-17)
 
      This implementation is organized into several passes, each implemen-
      ting one or more of the rules of the Unicode Bidi Algorithm. The 
      resolution of Weak Types and of Neutrals each use a state table
      approach.
 
-	 Both a printf based interface and a Windows DlgProc are provided for
-	 interactive testing.
+     Both a printf based interface and a Windows DlgProc are provided for
+     interactive testing.
 
-	 The file biditest.cpp contains hooks to link to a stress harness 
-	 comparing this implementation to a Java based implementation. This 
-	 harness was used to verify that the two implementations produce 
-	 identical results.
+     The file biditest.cpp contains hooks to link to a stress harness 
+     comparing this implementation to a Java based implementation. This 
+     harness was used to verify that the two implementations produce 
+     identical results.
   
      Build Notes
-	 -----------
+     -----------
 
-	 To compile the sample implementation please set the #define 
-	 directives above so the correct headers get included. Not all the 
-	 files are needed for all purposes; some, like biditest.cpp are 
-	 needed solely to recreate the environment used for verification 
-	 so that any bug reports can be verified quickly.
-	 
-	 The Win32 version is provided as a dialog procedure. To create 
-	 a full executable using VC++:
-	 - add the file to the project for a suitable Win32 program, 
-	   e.g. the GENERIC sample program from the SDK
-	 - add the instructions in bidi.rc to the resource file
-	 - add a command to launch the bidi dialog from your program
+     To compile the sample implementation please set the #define 
+     directives above so the correct headers get included. Not all the 
+     files are needed for all purposes; some, like biditest.cpp are 
+     needed solely to recreate the environment used for verification 
+     so that any bug reports can be verified quickly.
+     
+     The Win32 version is provided as a dialog procedure. To create 
+     a full executable using VC++:
+     - add the file to the project for a suitable Win32 program, 
+       e.g. the GENERIC sample program from the SDK
+     - add the instructions in bidi.rc to the resource file
+     - add a command to launch the bidi dialog from your program
 
-	 This code uses an extension to C++ that gives variables declared in
-	 a for() statement function the same scope as the for() statement.
-	 If your compiler does not support this extension, you may need to
-	 move the declaration, e.g. int ich = 0; in front of the for statement.
+     This code uses an extension to C++ that gives variables declared in
+     a for() statement function the same scope as the for() statement.
+     If your compiler does not support this extension, you may need to
+     move the declaration, e.g. int ich = 0; in front of the for statement.
   
-	 Implementation Note
-	 -------------------
+     Implementation Note
+     -------------------
 
-	 NOTE: The Unicode Birdirectional Algorithm removes all explicit 
-		   formatting codes in rule X9, but states that this can be 
-		   simulated by conformant implementations. This implementation
-		   attempts to demonstrate such a simulation
+     NOTE: The Unicode Birdirectional Algorithm removes all explicit 
+           formatting codes in rule X9, but states that this can be 
+           simulated by conformant implementations. This implementation
+           attempts to demonstrate such a simulation
 
-		   To demonstrate this, the current implementation does the
-		   following:
+           To demonstrate this, the current implementation does the
+           following:
 
-			in resolveExplicit()
-				- change LRE, LRO, RLE, RLO, PDF to BN
-				- assign nested levels to BN
+            in resolveExplicit()
+                - change LRE, LRO, RLE, RLO, PDF to BN
+                - assign nested levels to BN
 
-			in resolveWeak and resolveNeutrals
-				- assign L and R to BN's where they exist in place of
-				  sor and eor by changing the last BN in front of a 
-				  level change to a strong type
-				- skip over BN's for the purpose of determining actions
-				- include BN in the count of deferred runs
-					which will resolve some of them to EN, AN and N
+            in resolveWeak and resolveNeutrals
+                - assign L and R to BN's where they exist in place of
+                  sor and eor by changing the last BN in front of a 
+                  level change to a strong type
+                - skip over BN's for the purpose of determining actions
+                - include BN in the count of deferred runs
+                    which will resolve some of them to EN, AN and N
 
-			in resolveWhiteSpace
-				- set the level of any surviving BN to the base level, 
-					or the level of	the preceding character
-				- include LRE,LRO, RLE, RLO, PDF and BN in the count 
-				   whitespace to be reset
+            in resolveWhiteSpace
+                - set the level of any surviving BN to the base level, 
+                    or the level of the preceding character
+                - include LRE,LRO, RLE, RLO, PDF and BN in the count 
+                   whitespace to be reset
 
-		   This will result in the same order for non-BN characters as
-		   if the BN characters had been removed.
+           This will result in the same order for non-BN characters as
+           if the BN characters had been removed.
 
-		   The clean() function can be used to remove boundary marks for
-		   verification purposes.
+           The clean() function can be used to remove boundary marks for
+           verification purposes.
 
-	 Notation
-	 --------
-	 Pointer variables generally start with the letter p
-	 Counter variables generally start with the letter c
-	 Index variables generally start with the letter i
-	 Boolean variables generally start with the letter f
+     Notation
+     --------
+     Pointer variables generally start with the letter p
+     Counter variables generally start with the letter c
+     Index variables generally start with the letter i
+     Boolean variables generally start with the letter f
 
-	 The enumerated bidirectional types have the same name as in the
-	 description for the Unicode Bidirectional Algorithm
+     The enumerated bidirectional types have the same name as in the
+     description for the Unicode Bidirectional Algorithm
 
-	 Update History:
-	 --------------
-	 Version 24 is the initial published and verified version of this
-	 reference implementation. Version 25 and its updates fix various
-	 minor issues with the scaffolding used for demonstrating the
-	 algorithm using pseudo-alphabets from the command line or dialog
-	 box. No changes to the implementation of the actual bidi algrithm
-	 are made in any of the minor updates to version 25.
+     Update History:
+     --------------
+     Version 24 is the initial published and verified version of this
+     reference implementation. Version 25 and its updates fix various
+     minor issues with the scaffolding used for demonstrating the
+     algorithm using pseudo-alphabets from the command line or dialog
+     box. No changes to the implementation of the actual bidi algrithm
+     are made in any of the minor updates to version 25.
 
-	 - updated pseudo-alphabet
-	
-	 - Last Revised 12-10-99 (25)
+     - updated pseudo-alphabet
+    
+     - Last Revised 12-10-99 (25)
 
-	 - enable demo mode for release builds - no other changes
+     - enable demo mode for release builds - no other changes
 
-	 - Last Revised 12-10-00 (25a)
+     - Last Revised 12-10-00 (25a)
 
-	 - fix regression in pseudo alphabet use for Windows UI
+     - fix regression in pseudo alphabet use for Windows UI
 
-	 - Last Revised 02-01-01 (25b)
+     - Last Revised 02-01-01 (25b)
 
-	 - fixed a few comments, renamed a variable
+     - fixed a few comments, renamed a variable
 
-	 - Last Revised 03-04-01 (25c)
+     - Last Revised 03-04-01 (25c)
 
-	 - make base level settable, enable mirror by default, 
-	   fix dialog size
+     - make base level settable, enable mirror by default, 
+       fix dialog size
 
      - Last Revised 06-02-01 (25e)
 
-	 - fixed some comments
+     - fixed some comments
 
-	 - Last Revised 09-29-01 (25f)
+     - Last Revised 09-29-01 (25f)
 
      - fixed classification for LS,RLM,LRM in pseudo alphabet, 
-	   focus issues in UI, regression fix to commandline from 25(e)
-	   fix DEMO switch
+       focus issues in UI, regression fix to commandline from 25(e)
+       fix DEMO switch
 
      - Last Revised 11-07-01 (25g)
 
-	 Disclaimer and legal rights
-	 ---------------------------
+     - fixed classification for plus/minus in pseudo alphabet
+       to track changes made in Unicode 4.0.1
 
-     This file contains bugs. All representations to the contrary are 
-     void.
+     - Last Revised 12-03-04 (25h)
 
-     Source code in this file and the accompanying headers and included 
-	 files may be distributed free of charge by anyone, as long as full 
-	 credit is given and any and all liabilities are assumed by the 
-	 recipient.
+     Credits:
+     -------
+     Written by: Asmus Freytag
+     Command line interface by: Rick McGowan
+     Verification and Test Harness: Doug Felt
 
-	 Written by: Asmus Freytag
-	 Command line interface by: Rick McGowan
-	 Verification and Test Harness: Doug Felt
+     Disclaimer and legal rights:
+     ---------------------------
+     Copyright (C) 1999-2005, ASMUS, Inc. All Rights Reserved. 
+     Distributed under the Terms of Use in http://www.unicode.org/copyright.html.
+ 
+     THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. 
+     IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE 
+     BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, 
+     OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, 
+     WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, 
+     ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE SOFTWARE.
 
-     Copyright (C) 1999-2001, ASMUS, Inc. All Rights Reserved
+     The files bidi.h and bid.rc are included in the above.
 ------------------------------------------------------------------------*/
 
 
@@ -251,8 +261,8 @@ enum
 const TCHAR legend[] = 
 TEXT("This sample uses the following pseudo-alphabet as input\r\n")
 TEXT("Excplicit: LRE: [ RLE: ] LRO: { RLO: } PDF: 0x12,^ \r\n")
-TEXT("Strong:    AL: A-F  R:  0x17,G-Z   L:  0x16,a-z   LRM: <btn>   RLM: <btn> \r\n")
-TEXT("Numeric:   EN: 0-5  AN: 6-9 ES: /  ET: #,$,%,+,-  CS:  [comma],.,: \r\n")
+TEXT("Strong:    AL: A-F   R:  0x17,G-Z   L:  0x16,a-z   LRM: <btn>   RLM: <btn> \r\n")
+TEXT("Numeric:   EN: 0-5   AN: 6-9       CS: [comma],.,: ES: /,+,-    ET: #,$,%  \r\n")
 TEXT("Neutral:   WS: 0xc,0x15,[space]    ON: !,\",&,',(,),*,;,<,=,>,?,@,\\,0x7f \r\n")
 TEXT("Special:   NSM: `   B: |    S: _   BN: ~ ");
 #endif
@@ -273,7 +283,7 @@ int TypesFromChar[]  =
 //0   1   2   3   4   5   6   7   8   9   a   b   c   d   e   f
  BN, BN, BN, BN,  L,  R, BN, BN, BN,  S,  B,  S, WS,  B, BN, BN, /*00-0f*/
 LRO,LRE,PDF,RLO,RLE, WS,  L,  R, BN, BN, BN, BN,  B,  B,  B,  S, /*10-1f*/
- WS, ON, ON, ET, ET, ET, ON, ON, ON, ON, ON, ET, CS, ET, CS, ES, /*20-2f*/
+ WS, ON, ON, ET, ET, ET, ON, ON, ON, ON, ON, ES, CS, ES, CS, ES, /*20-2f*/
  EN, EN, EN, EN, EN, EN, AN, AN, AN, AN, CS, ON, ON, ON, ON, ON, /*30-3f*/
  ON, AL, AL, AL, AL, AL, AL,  R,  R,  R,  R,  R,  R,  R,  R,  R, /*40-4f*/
   R,  R,  R,  R,  R,  R,  R,  R,  R,  R,  R,LRE, ON,RLE,PDF,  S, /*50-5f*/
@@ -295,8 +305,8 @@ RLE: 0x14,]
 RLO: 0x13,}
 PDF: 0x12,^
  EN: 0-5
- ES: /
- ET: #,$,%,+,[hyphen]
+ ES: /,+,[hyphen]
+ ET: #,$,%
  AN: 6-9
  CS: [comma],.,:
 NSM: `
@@ -1710,8 +1720,8 @@ BOOL CALLBACK BidiDlgProc(HWND hwndDlg, UINT message, WPARAM wParam,
                 CWindow winDlg(hwndDlg);
                 winDlg.CenterAbove( GetWindow(hwndDlg,GW_OWNER));
                 #endif
-      			hfontDlg = CreateFont(-11, 0, 0, 0, 0, 0, 0, 0,	0, 0, 0, 0,
-							FIXED_PITCH | FF_MODERN, TEXT("Lucida Sans Typewriter"));
+      			hfontDlg = CreateFont(-14, 0, 0, 0, 0, 0, 0, 0,	0, 0, 0, 0,
+							FIXED_PITCH | FF_MODERN, TEXT("Lucida Console"));
 				SendMessage (GetDlgItem (hwndDlg, IDC_LEGEND), WM_SETFONT, (UINT)hfontDlg, TRUE);
           return TRUE;
             }
