@@ -1,18 +1,63 @@
-// File: Bidi.rc
+// Microsoft Visual C++ generated resource script.
 //
-// For use with Bidi Reference Implementation
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
 //
-// This file contains  the definition of the Windows bidi demo dialog
-// Include this file into the resource script for your bidi demo program
+// Generated from the TEXTINCLUDE 2 resource.
 //
-// For rights, disclaimers and description see associated BIDI.CPP file
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 1999-2001, ASMUS, Inc.     All Rights Reserved
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
 
 IDD_BIDI DIALOGEX 0, 0, 310, 253
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
 CAPTION "BIDI ALGORITHM SAMPLE"
-FONT 12, "Lucida Console"
+CLASS "BidiDemo"
+FONT 12, "Lucida Console", 0, 0, 0x1
 BEGIN
     EDITTEXT        IDC_INPUT,51,7,252,14,ES_AUTOHSCROLL
     LTEXT           "Levels:\n\nExplicit \n\nImplicit",IDC_STATIC,7,95,36,43
@@ -31,7 +76,6 @@ BEGIN
     PUSHBUTTON      "LR-Embed",IDC_LRE,48,228,37,17
     PUSHBUTTON      "RL-Override",IDC_RLO,140,228,47,17
     PUSHBUTTON      "LR-Override",IDC_LRO,190,228,47,17
-    PUSHBUTTON      "Close",IDCANCEL,274,228,29,17
     PUSHBUTTON      "RLM",IDC_RLM,94,228,18,17
     PUSHBUTTON      "LRM",IDC_LRM,114,228,18,17
     CONTROL         "Mirror",IDC_MIRROR,"Button",BS_AUTOCHECKBOX | 
@@ -51,4 +95,38 @@ BEGIN
     CONTROL         "Implicit level",IDC_IMPLICIT,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,239,91,41,14
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_BIDI, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 239
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
 
